@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Webpage Title</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Patreon-style navigation bar */
+        .navbar {
+            background-color: #0058b0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu-item {
+            font-size: 1.2rem;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .hamburger-icon {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger-icon div {
+            width: 30px;
+            height: 3px;
+            background-color: #fff;
+            margin: 4px 0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: #0058b0;
+                z-index: 1001;
+            }
+
+            .navbar.active .navbar-menu {
+                display: flex;
+            }
+
+            .hamburger-icon {
+                display: flex;
+            }
+
+            .navbar-menu-item {
+                padding: 10px 20px;
+            }
+
+            /* Adjust the margin for content to create space for the navigation menu */
+            .navbar + .content {
+                margin-top: 70px;
+            }
+        }
+
+        /* Add space below the navigation bar */
+        .navbar + .content {
+            margin-top: 100px; /* Adjust the margin as needed */
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Adjust the height as needed */
+            overflow: hidden;
+        }
+
+        #myVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Make the video cover the entire container */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer; /* Change the cursor to a pointer when hovering over the overlay */
+        }
+
+        /* Additional content sections */
+        .content {
+            padding: 40px;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* Animation for content */
+        .content-section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .content-section.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Patreon-style navigation bar -->
+    <div class="navbar">
+        <a href="#" class="navbar-logo">Patreon</a>
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="#" class="navbar-menu-item">Home</a></li>
+            <li><a href="#" class="navbar-menu-item">About</a></li>
+            <li><a href="#" class="navbar-menu-item">Services</a></li>
+            <li><a href="#" class="navbar-menu-item">Portfolio</a></li>
+            <li><a href="#" class="navbar-menu-item">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Video container and content -->
+    <div class="video-container">
+        <video id="myVideo" preload="none" loop muted crossorigin="anonymous" src="https://c15.patreon.com/Real_Ones_V1_Without_Overlay_5mb_1_7b4cb9fe23.mp4" poster="https://c15.patreon.com/large_Patreon_Website_Hero_2_X_72dpi_jon_854d9d12c9.jpg" playsinline></video>
+        <div class="overlay">Click to Play</div>
+    </div>
+
+    <!-- Additional content sections with animations -->
+    <div class="content">
+        <div class="content-section">
+            <h2>Welcome to Our Website</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet tincidunt quam.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>About Us</h2>
+            <p>Learn more about our company and our mission to provide quality services to our clients.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Services</h2>
+            <p>Explore the range of services we offer to meet your needs. We specialize in XYZ.</p>
+        </div>
+    </div>
+
+    <script>
+        var video = document.getElementById('myVideo');
+        var overlay = document.querySelector('.overlay');
+        var navbar = document.querySelector('.navbar');
+        var isMenuOpen = false;
+
+        // Function to toggle the navigation menu
+        function toggleMenu() {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                navbar.classList.add('active');
+            } else {
+                navbar.classList.remove('active');
+            }
+        }
+
+        overlay.addEventListener('click', function() {
+            if (video.paused) {
+                video.play();
+                overlay.style.opacity = 0; // Hide the overlay when the video starts playing
+            } else {
+                video.pause();
+                overlay.style.opacity = 1; // Show the overlay when the video is paused
+            }
+        });
+
+        // Animate content sections when they come into view
+        window.addEventListener('scroll', function() {
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach((section) => {
+                const sectionPosition = section.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                if (sectionPosition < screenPosition) {
+                    section.classList.add('animate');
+                }
+            });
+        });
+    </script>
+
+<script>
+    // Function to check if an element is in the viewport
+    function isElementInViewport(elem) {
+      var rect = elem.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+  
+    // Function to add animation class to elements in the viewport
+    function addAnimationClass() {
+      var windowHeight = $(window).height();
+      var scrollPos = $(window).scrollTop();
+  
+      $('.services-section, .cta-section, .testimonial-section, .features-section, .hero').each(function() {
+        if (isElementInViewport(this)) {
+          $(this).addClass('animate-on-scroll');
+        }
+      });
+    }
+  
+    // Initial check when the page loads
+    addAnimationClass();
+  
+    // Check on scroll
+    $(window).on('scroll', function() {
+      addAnimationClass();
+    });
+  </script>
+  
+
+
+</body>
+</html>
